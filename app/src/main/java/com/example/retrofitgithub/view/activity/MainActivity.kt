@@ -3,6 +3,7 @@ package com.example.retrofitgithub.view.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,15 +16,28 @@ import com.example.retrofitgithub.view.adapter.AdapterRepos
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 const val BASE_URL = "https://api.github.com/"
 
 class MainActivity : AppCompatActivity() {
 
-    private val adapter: AdapterRepos = AdapterRepos()
-   // lateinit var retrofit: Retrofit
-    lateinit var ddd:String
+    private val adapter: AdapterRepos = AdapterRepos(
+        userAction = {
+            val bundle = bundleOf(
+                "type" to "user_html",
+                "data" to it.html_url
+            )
+            startUserActivity(bundle)
+        },
+        loginAction = {
+            val bundle = bundleOf(
+                "type" to "user_data",
+                "data" to it.user.login
+            )
+            startLoginActivity(bundle)
+        }
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -52,6 +66,21 @@ class MainActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
+    }
 
+
+    // TODO отдельные активити для логина и для юзера
+    private fun startLoginActivity(extras: Bundle) {
+        Intent(this, UserActivity::class.java).apply {
+            putExtras(extras)
+            startActivity(this)
+        }
+    }
+
+    private fun startUserActivity(extras: Bundle) {
+        Intent(this, UserActivity::class.java).apply {
+            putExtras(extras)
+            startActivity(this)
+        }
     }
 }
