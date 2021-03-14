@@ -5,9 +5,9 @@ package com.example.retrofitgithub.domain.model
  * https://github.com/bitvale
  */
 data class User(
-    val login: String?,
-    val avatar_url: String?,
-    val html_url: String?,
-    val type: String?,
-    val url: String?// Не используется пока, для отображения страницы USER
-)
+    override val login: String?,
+    override val avatar_url: String?,
+    override val html_url: String?,
+    override val type: String?,
+    val url: String?
+) : UserInterface
