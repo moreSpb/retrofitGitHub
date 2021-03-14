@@ -9,4 +9,5 @@ object RetrofitClient {
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    lateinit var retrofit:Retrofit
 }
